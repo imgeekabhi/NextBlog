@@ -2,6 +2,7 @@ import FeaturedPosts from "../Components/HomePage/FeaturedPosts";
 import { Fragment } from "react";
 import Hero from "../Components/HomePage/Hero";
 import { getFeaturedPost } from "../lib/posts-util";
+import Head from "next/head";
 // const DUMMY_POSTS = [
 //   {
 //     slug: "getting-started-with-nextjs",
@@ -40,6 +41,13 @@ import { getFeaturedPost } from "../lib/posts-util";
 const HomePage = ({ posts }) => {
   return (
     <Fragment>
+      <Head>
+        <title>Abhishek's Blog</title>
+        <meta
+          name="description"
+          content="I post about programming and web app development"
+        />
+      </Head>
       <Hero />
       <FeaturedPosts posts={posts} />
     </Fragment>

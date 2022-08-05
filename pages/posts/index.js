@@ -1,6 +1,7 @@
 import React from "react";
 import AllPosts from "../../Components/Posts/AllPosts";
 import { getAllPosts } from "../../lib/posts-util";
+import Head from "next/head";
 
 // const DUMMY_POSTS = [
 //   {
@@ -41,6 +42,13 @@ const AllPostPage = ({ posts }) => {
   console.log(posts);
   return (
     <>
+      <Head>
+        <title>All Posts</title>
+        <meta
+          name="description"
+          content="Here you will find all programming and web development related posts."
+        />
+      </Head>
       <AllPosts posts={posts} />
     </>
   );
