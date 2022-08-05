@@ -1,29 +1,71 @@
 import React, { useRef, useState } from "react";
 import styles from "./ContactForm.module.css";
 import Notification from "../../ui/notification";
+
+const sendContactData = async (contactDetail) => {
+  const res = await fetch("/api/contact", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(contactDetail),
+  });
+  const data = await res.json();
+  if (!res.ok) {
+    throw new Error(data.message || "Something went wrong!");
+  }
+};
+
 const ContactForm = () => {
   const emailInputRef = useRef();
   const nameInputRef = useRef();
   const messageInputRef = useRef();
   const [requestStatus, setRequestStatus] = useState();
+  const [requestError, setRequestError] = useState();
 
-  const sendMessageHandler = (e) => {
+  const sendMessageHandler = async (e) => {
     e.preventDefault();
     const email = emailInputRef.current.value;
     const name = nameInputRef.current.value;
     const message = messageInputRef.current.value;
-    fetch("/api/contact", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
+
+    setRequestStatus("pending");
+
+    try {
+      await sendContactData({
         email,
         name,
         message,
-      }),
-    });
+      });
+      setRequestStatus("success");
+    } catch (error) {
+      setRequestError(error.message);
+      setRequestStatus("error");
+    }
   };
+
+  let notification;
+  if (requestStatus === "pending") {
+    notification = {
+      status: "pending",
+      title: "sending message...",
+      message: "Your message is on the way!",
+    };
+  }
+  if (requestStatus === "success") {
+    notification = {
+      status: "success",
+      title: "Success!",
+      message: "Message sent successfully!",
+    };
+  }
+  if (requestStatus === "error") {
+    notification = {
+      status: "error",
+      title: "Error!",
+      message: requestError,
+    };
+  }
 
   return (
     <section className={styles.contact}>
@@ -47,6 +89,13 @@ const ContactForm = () => {
           <button>Send Message</button>
         </div>
       </form>
+      {notification && (
+        <Notification
+          status={notification.status}
+          title={notification.title}
+          message={notification.message}
+        />
+      )}
     </section>
   );
 };
