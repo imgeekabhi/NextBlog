@@ -38,7 +38,6 @@ export default async function handler(req, res) {
       res.status(201).json({ message: "Storing message failed!" });
       return;
     }
-    console.log(newMessage);
     client.close();
     res
       .status(201)

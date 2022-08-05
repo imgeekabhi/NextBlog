@@ -39,7 +39,6 @@ import Head from "next/head";
 // ];
 
 const AllPostPage = ({ posts }) => {
-  console.log(posts);
   return (
     <>
       <Head>
