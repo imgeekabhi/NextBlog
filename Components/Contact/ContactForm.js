@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import styles from "./ContactForm.module.css";
 import Notification from "../../ui/notification";
 
@@ -23,6 +23,16 @@ const ContactForm = () => {
   const [requestStatus, setRequestStatus] = useState();
   const [requestError, setRequestError] = useState();
 
+  useEffect(() => {
+    if (requestStatus === "success" || requestStatus === "error") {
+      const timer = setTimeout(() => {
+        setRequestStatus(null);
+        setRequestError(null);
+      }, 3000);
+      return () => clearTimeout(timer);
+    }
+  }, [requestStatus]);
+
   const sendMessageHandler = async (e) => {
     e.preventDefault();
     const email = emailInputRef.current.value;
@@ -42,6 +52,10 @@ const ContactForm = () => {
       setRequestError(error.message);
       setRequestStatus("error");
     }
+    //to reset the field after submission
+    emailInputRef.current.value = "";
+    nameInputRef.current.value = "";
+    messageInputRef.current.value = "";
   };
 
   let notification;
