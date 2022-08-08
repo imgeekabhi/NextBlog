@@ -42,7 +42,7 @@ const HomePage = ({ posts }) => {
   return (
     <Fragment>
       <Head>
-        <title>Abhishek's Blog</title>
+        <title>Abhisheks Blog</title>
         <meta
           name="description"
           content="I post about programming and web app development"
