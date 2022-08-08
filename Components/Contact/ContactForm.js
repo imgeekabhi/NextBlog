@@ -96,7 +96,7 @@ const ContactForm = () => {
           </div>
         </div>
         <div className={styles.control}>
-          <label htmlFor="message">Your Email</label>
+          <label htmlFor="message">Your Message</label>
           <textarea id="message" rows={`5`} required ref={messageInputRef} />
         </div>
         <div className={styles.actions}>
